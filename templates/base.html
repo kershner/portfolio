@@ -28,7 +28,8 @@
     <body>
     <!-- Content-->
     <div id="page-wrapper">
-    {% block content %}{% endblock %}
+        <div class="ball-container"></div>
+        {% block content %}{% endblock %}
     </div>
 
     <!-- Footer -->
@@ -78,8 +79,6 @@
 
         <!-- JS -->
         <script type="text/javascript" src="{% static 'vendor/js/svgInject.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'vendor/js/particles.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/particles.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/util.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/main.js' %}?timestamp={{ timestamp }}"></script>
         {% block javascripts %}

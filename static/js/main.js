@@ -10,6 +10,7 @@ var portfolio = {
     'bigName'               : document.getElementsByClassName('big-name')[0],
     'bigCallToAction'       : document.getElementsByClassName('big-call-to-action')[0],
     'cubeGrid'              : document.getElementsByClassName('cube-grid')[0],
+    'ballContainer'         : document.getElementsByClassName('ball-container')[0],
     'moreProjectsBtn'       : document.getElementById('more-projects-btn'),
     'imgAnimationClass'     : 'pop-up',
     'oldProjectsUrl'        : 'http://old.kershner.org/projects',
@@ -58,37 +59,54 @@ portfolio.removeImgAnimationClass = function() {
 };
 
 portfolio.rotateColors = function() {
-    var particlesCanvas = 'particles-js-canvas-el';
-
     shuffle(portfolio.colors);
+    portfolio.generateBalls();
     portfolio.changeColors();
+
+    // Main color change loop
     setInterval(function() {
-        var particlesWrapper = document.getElementsByClassName(particlesCanvas)[0];
-        particlesWrapper.addEventListener('animationend', fadeoutCallback);
-        addClass(particlesWrapper, 'fade-out');
-    }, portfolio.colorChangeInterval);
-
-    function fadeoutCallback() {
-        particlesTeardown();
         portfolio.changeColors();
+    }, portfolio.colorChangeInterval);
+};
 
-        var particlesWrapper = document.getElementsByClassName(particlesCanvas)[0];
-        particlesWrapper.removeEventListener('animationend', self);
-        particlesWrapper.addEventListener('animationend', fadeinCallback);
-        addClass(particlesWrapper, 'fade-in');
+portfolio.generateBalls = function() {
+    const numBalls = 50;
+    const balls = [];
+    for (let i = 0; i < numBalls; i++) {
+        let ball = document.createElement('div');
+        ball.classList.add('ball');
+        ball.classList.add('dynamic-color');
+        ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+        ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+        ball.style.transform = `scale(${Math.random()})`;
+        ball.style.width = `${Math.random()}em`;
+        ball.style.height = ball.style.width;
+
+        balls.push(ball);
+        portfolio.ballContainer.append(ball);
     }
 
-    function fadeinCallback() {
-        var particlesWrapper = document.getElementsByClassName(particlesCanvas)[0];
-        particlesWrapper.removeEventListener('animationend', self);
-        removeClass(particlesWrapper, 'fade-out');
-        removeClass(particlesWrapper, 'fade-in');
-    }
+    // Keyframes
+    balls.forEach((el, i, ra) => {
+        let to = {
+            x: Math.random() * (i % 2 === 0 ? -11 : 11),
+            y: Math.random() * 12
+        };
 
-    function particlesTeardown() {
-        window.pJSDom[0].pJS.fn.vendors.destroypJS();
-        window['pJSDom'] = [];
-    }
+        let anim = el.animate(
+            [
+                { transform: 'translate(0, 0)' },
+                { transform: `translate(${to.x}rem, ${to.y}rem)` }
+            ],
+            {
+                duration: (Math.random() + 1) * 2000, // random duration
+                direction: 'alternate',
+                fill: 'both',
+                iterations: Infinity,
+                easing: 'ease-in-out'
+            }
+        );
+    });
 };
 
 portfolio.cubeClick = function() {
@@ -197,6 +215,4 @@ portfolio.changeColors = function() {
         removeClass(el, currentColor[0]);
         addClass(el, portfolio.colors[portfolio.colorIndex][0]);
     }
-
-    particlesInit(portfolio.colors[portfolio.colorIndex][1]);
 };

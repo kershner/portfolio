@@ -12,6 +12,11 @@ body
 .purple
   color: $purple
 
+.ball
+  position: absolute
+  border-radius: 100%
+  opacity: 0.7
+
 a
   +animate(0.2s)
   color: $purple
@@ -24,11 +29,14 @@ a
   display: inline-block
 
 #page-wrapper
-  .particles-js-canvas-el
+  .ball-container
     position: fixed
     top: 0
     left: 0
     z-index: 0
+    height: 100%
+    width: 100%
+    @extend %red-border
 
 // Welcome section
 .welcome-wrapper
