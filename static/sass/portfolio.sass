@@ -16,6 +16,7 @@ body
   position: absolute
   border-radius: 100%
   opacity: 0.7
+  filter: blur(0.4em)
 
 a
   +animate(0.2s)
@@ -84,6 +85,8 @@ a
 // Project
 .projects-wrapper
   min-height: 25em
+  z-index: 1
+  position: relative
 
 .project-wrapper
   display: flex

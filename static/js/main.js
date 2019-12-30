@@ -5,6 +5,7 @@ var portfolio = {
     'projects'              : [],
     'colorIndex'            : 0,
     'colorChangeInterval'   : 10000,  // 10 seconds,
+    'numBalls'              : 50,
     'projectsWrapper'       : document.getElementsByClassName('projects-wrapper')[0],
     'projectWrappers'       : document.getElementsByClassName('project-wrapper'),
     'bigName'               : document.getElementsByClassName('big-name')[0],
@@ -25,6 +26,15 @@ var portfolio = {
 };
 
 portfolio.init = function() {
+    var intViewportWidth = window.innerWidth;
+    if (intViewportWidth < 500) {
+        portfolio.numBalls = 10;
+    } else if (intViewportWidth < 700) {
+        portfolio.numBalls = 20;
+    } else if (intViewportWidth < 900) {
+        portfolio.numBalls = 30;
+    }
+
     portfolio.deferImages();
     portfolio.rotateColors();
     portfolio.scrollEvents();
@@ -70,16 +80,15 @@ portfolio.rotateColors = function() {
 };
 
 portfolio.generateBalls = function() {
-    const numBalls = 50;
     const balls = [];
-    for (let i = 0; i < numBalls; i++) {
+    for (let i=0;i<portfolio.numBalls;i++) {
         let ball = document.createElement('div');
         ball.classList.add('ball');
         ball.classList.add('dynamic-color');
         ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
         ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
         ball.style.transform = `scale(${Math.random()})`;
-        ball.style.width = `${Math.random()}em`;
+        ball.style.width = `${randomIntFromInterval(0, 7)}em`;
         ball.style.height = ball.style.width;
 
         balls.push(ball);
